@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:whatsapp_status_saver/utill/colors.dart';
 
 import 'package:whatsapp_status_saver/view/pictures.dart';
 import 'package:whatsapp_status_saver/view/videos.dart';
 
-import '../provider/tab_provider.dart';
+
 import '../utill/path_services.dart';
 import '../utill/permission.dart';
 
@@ -26,7 +25,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   //   // path.StorageDirectory.ringtones
   //   final directory = Directory('/storage/emulated/0/Whatsapp/Media/.Statuses');
   //   directory.exists().then((value) => print(value));
-  //   directory.list().forEach((element) { 
+  //   directory.list().forEach((element) {
   //     // print(element.uri);
   //     // "".
   //     var file = element.path.split('.');
@@ -42,39 +41,60 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    final inst  = PathServices.instance;
-    Perms.getPerms().then((value) => 
-      value?inst.fetchFiles(context): print("Not granted")
-    );
+    final inst = PathServices.instance;
+    Perms.getPerms().then(
+        (value) => value ? inst.fetchFiles(context) : print("Not granted"));
     super.initState();
   }
 
-  final _items = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.image),label: "Pictures"),
-    BottomNavigationBarItem(icon: Icon(Icons.videocam),label: "Videos"),
+  // final _items = <BottomNavigationBarItem>[
+  //   BottomNavigationBarItem(icon: Icon(Icons.image),label: "Pictures"),
+  //   BottomNavigationBarItem(icon: Icon(Icons.videocam),label: "Videos"),
+  // ];
+  final _tabbar = [
+    Tab(
+      text: "Images",
+    ),
+    Tab(
+      text: "Vedios",
+    ),
   ];
 
-  final _tabs = <Widget>[
-    Pictures(),
-    Videos()
-  ];
+  final _tabs = <Widget>[Pictures(), Videos()];
 
   @override
   Widget build(BuildContext context) {
-    final tab = Provider.of<TabProvider>(context);
-    return Scaffold(
+    // final tab = Provider.of<TabProvider>(context);
+    return
+        //  Scaffold(
+        //     appBar: AppBar(
+        // backgroundColor: Colors.green,
+        // title: Text(_title),
+        // centerTitle: false,
+        //     ),
+        //     body:_tabs[tab.index],
+        //         bottomNavigationBar:
+        //          BottomNavigationBar(
+        //           selectedItemColor: Colors.green,
+        //            currentIndex: tab.index,
+        //            onTap: (i)=>tab.index = i,
+        //            items:_items,),
+        //         );
+        DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: AppColors.appColor ,
           title: Text(_title),
           centerTitle: false,
+          bottom: TabBar(
+           indicatorColor: AppColors.white,
+           indicatorSize: TabBarIndicatorSize.label,
+            tabs: _tabbar),
         ),
-        body:_tabs[tab.index],
-            bottomNavigationBar:
-             BottomNavigationBar(
-              selectedItemColor: Colors.green,
-               currentIndex: tab.index,
-               onTap: (i)=>tab.index = i,
-               items:_items,),
-            );
+        body: TabBarView(children: _tabs),
+      ),
+    );
   }
 }

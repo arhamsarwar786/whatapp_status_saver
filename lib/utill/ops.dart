@@ -18,14 +18,14 @@ class MainOps {
       await File(path).copy('${dir.path}${uuid}.$ext');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Saved!"),
+          content: Text("Saved successfully!"),
           duration: Duration(seconds: 1),
         ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Err!"),
+          content: Text("Please Try Again"),
           duration: Duration(seconds: 1),
         ),
       );

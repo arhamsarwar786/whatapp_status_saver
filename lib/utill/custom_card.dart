@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 import '../view/full_screen.dart';
-import 'colors.dart';
+
 
 class CustomCard extends StatefulWidget {
   final Map<String,String>? vid; 
@@ -45,14 +45,15 @@ class _CustomCardState extends State<CustomCard> {
           decoration: BoxDecoration(
             image:  DecorationImage(fit: BoxFit.cover,image:FileImage(File(widget.isVideo!?this.widget.vid!["thumb"].toString():this.widget.path.toString()))),
                 color: Colors.black,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                      color: shadow_color,
-                      offset: Offset(0, 1),
-                      blurRadius: 5,
-                      spreadRadius: .5)
-                ]),
+                borderRadius: BorderRadius.circular(10),
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: shadow_color,
+                //       offset: Offset(0, 1),
+                //       blurRadius: 5,
+                //       spreadRadius: .5)
+                // ]
+                ),
         ),
               ),
       ),

@@ -7,7 +7,7 @@ import '../utill/custom_card.dart';
 class Pictures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
+    return 
       Consumer<ImagesProvider>(
         builder: (context, snapshot,widget) {
           return Container(

@@ -58,7 +58,9 @@ class _FullScreenState extends State<FullScreen> {
         child: Center(child: Image.file(File(this.widget.path!)))),
         floatingActionButton: Builder(
           builder: (context,) {
-            return FloatingActionButton(onPressed:()=>MainOps.save(context, this.widget.path!), child: Icon(Icons.save),);
+            return FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed:()=>MainOps.save(context, this.widget.path!), child: Icon(Icons.save_alt,color: Colors.white,),);
           }
         ),
     );

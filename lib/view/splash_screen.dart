@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_status_saver/utill/apptext.dart';
+import 'package:whatsapp_status_saver/utill/colors.dart';
 import 'package:whatsapp_status_saver/utill/navigation.dart';
 
 
@@ -35,12 +36,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         children: [
           FadeTransition(
             opacity: _animation!,
-            child: Center(child: Image.asset("assets/images/logo.png", width: 200, height: 200)),
+            child: Center(child: Image.asset("assets/images/Logo.png", width: 200, height: 200)),
           ),
-          // SizedBox(height: 5),
+          SizedBox(height: 15),
           FadeTransition(
             opacity: _animation!,
-            child: AppText(text: "Status Saver", fontSize: 20, fontWeight: FontWeight.bold)),
+            child: AppText(text: "Status Saver", fontSize: 20, fontWeight: FontWeight.bold,color: AppColors.appColor,)),
         ],
       ),
     );

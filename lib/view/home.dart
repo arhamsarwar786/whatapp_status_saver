@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  final String _title = "Whatsapp Status Saver";
+  final String _title = " Status Saver";
   // TabController _tabController;
   // List<String> imgs = [];
   // List<String> vids = [];

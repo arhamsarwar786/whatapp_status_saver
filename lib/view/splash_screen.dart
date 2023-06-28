@@ -35,12 +35,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         children: [
           FadeTransition(
             opacity: _animation!,
-            child: Center(child: Image.asset("assets/images/status_saver.webp", width: 200, height: 200)),
+            child: Center(child: Image.asset("assets/images/logo.png", width: 200, height: 200)),
           ),
-          SizedBox(height: 10),
+          // SizedBox(height: 5),
           FadeTransition(
             opacity: _animation!,
-            child: AppText(text: "Save Photos and Images", fontSize: 20, fontWeight: FontWeight.bold)),
+            child: AppText(text: "Status Saver", fontSize: 20, fontWeight: FontWeight.bold)),
         ],
       ),
     );

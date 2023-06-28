@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:whatsapp_status_saver/utill/colors.dart';
 
 import '../utill/ops.dart';
 
@@ -59,7 +60,7 @@ class _FullScreenState extends State<FullScreen> {
         floatingActionButton: Builder(
           builder: (context,) {
             return FloatingActionButton(
-              backgroundColor: Colors.green,
+              backgroundColor: AppColors.appColor,
               onPressed:()=>MainOps.save(context, this.widget.path!), child: Icon(Icons.save_alt,color: Colors.white,),);
           }
         ),

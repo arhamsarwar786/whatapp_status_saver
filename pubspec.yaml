@@ -43,6 +43,7 @@ dependencies:
   permission_handler: 
   google_fonts: 
   path_provider: ^2.0.15
+  google_mobile_ads: ^3.0.0
 
 dev_dependencies:
   flutter_test:

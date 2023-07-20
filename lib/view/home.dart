@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:whatsapp_status_saver/utill/colors.dart';
 
 import 'package:whatsapp_status_saver/view/pictures.dart';
 import 'package:whatsapp_status_saver/view/videos.dart';
 
-
 import '../utill/path_services.dart';
 import '../utill/permission.dart';
+import 'ad_helper.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,48 +16,59 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  final String _title = " Status Saver";
-  // TabController _tabController;
-  // List<String> imgs = [];
-  // List<String> vids = [];
+  final String _title = "Status Saver";
+  RewardedAd? rewardedAd;
 
-  // Future get _localPath async {
-  //   await perm.Permission.storage.request().then((value) => print(value));
-  //   // path.StorageDirectory.ringtones
-  //   final directory = Directory('/storage/emulated/0/Whatsapp/Media/.Statuses');
-  //   directory.exists().then((value) => print(value));
-  //   directory.list().forEach((element) {
-  //     // print(element.uri);
-  //     // "".
-  //     var file = element.path.split('.');
-  //     if(file[2] == "jpg" || file[2] == "png"){
-  //       imgs.add(element.path);
-  //     }else if(file[2] == "mp4"){
-  //       vids.add(element.path);
-  //     }
-  //   }).then((value) => setState((){}));
-  //   // directory.
-  //   // return directory;
-  // }
+  void _loadRewardedAd() {
+    RewardedAd.load(
+      adUnitId: AdHelper.rewardedAdUnitId,
+      request: AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              setState(() {
+                ad.dispose();
+                rewardedAd = null;
+              });
+              _loadRewardedAd();
+            },
+          );
+
+          setState(() {
+            rewardedAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load a rewarded ad: ${err.message}');
+        },
+      ),
+    );
+  }
 
   @override
   void initState() {
+    super.initState();
     final inst = PathServices.instance;
     Perms.getPerms().then(
-        (value) => value ? inst.fetchFiles(context) : print("Not granted"));
-    super.initState();
+      (value) => value ? inst.fetchFiles(context) : print("Not granted"),
+    );
+    Future.delayed(Duration(seconds: 5), () {
+      if (rewardedAd != null) {
+        rewardedAd!.show(
+          onUserEarnedReward: (ad, rewardItem) {
+          },
+        );
+      }
+    });
   }
 
-  // final _items = <BottomNavigationBarItem>[
-  //   BottomNavigationBarItem(icon: Icon(Icons.image),label: "Pictures"),
-  //   BottomNavigationBarItem(icon: Icon(Icons.videocam),label: "Videos"),
-  // ];
   final _tabbar = [
     Tab(
       text: "Images",
     ),
     Tab(
-      text: "Vedios",
+      text: "Videos",
     ),
   ];
 
@@ -64,34 +76,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // final tab = Provider.of<TabProvider>(context);
-    return
-        //  Scaffold(
-        //     appBar: AppBar(
-        // backgroundColor: Colors.green,
-        // title: Text(_title),
-        // centerTitle: false,
-        //     ),
-        //     body:_tabs[tab.index],
-        //         bottomNavigationBar:
-        //          BottomNavigationBar(
-        //           selectedItemColor: Colors.green,
-        //            currentIndex: tab.index,
-        //            onTap: (i)=>tab.index = i,
-        //            items:_items,),
-        //         );
-        DefaultTabController(
+    return DefaultTabController(
       length: 2,
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.appColor ,
+          actions: [
+            DropdownButton<String>(
+              items: [],
+              onChanged: (String? value) {},
+            ),
+          ],
+          backgroundColor: AppColors.appColor,
           title: Text(_title),
           centerTitle: false,
           bottom: TabBar(
-           indicatorColor: AppColors.white,
-           indicatorSize: TabBarIndicatorSize.label,
-            tabs: _tabbar),
+            indicatorColor: AppColors.white,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: _tabbar,
+          ),
         ),
         body: TabBarView(children: _tabs),
       ),
